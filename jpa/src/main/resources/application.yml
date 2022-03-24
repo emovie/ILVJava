@@ -15,5 +15,3 @@ logging:
     '[org.hibernate.sql]': debug
     '[org.hibernate.type]': trace
     
-server:
-  port: 8080
