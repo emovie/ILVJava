@@ -1,5 +1,7 @@
 package com.hello.core.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -42,5 +44,15 @@ public class MemberController {
 		memberService.join(member);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/members")
+	public String list(Model model) {
+		model.addAttribute("members",memberService.findMembers());
+		// findMembers는 Member Entity를 노출시킬 위험이 있다.
+		// 이 경우는 반환값이 template 엔진으로 넘어가 괜찮지만 그 밖에 API의 경우는 별도 DTO를 만들어서 반환하는 것이 Entity 스펙 상 좋다.
+		return "members/memberList";
+	}
+	
+	
 	
 }
