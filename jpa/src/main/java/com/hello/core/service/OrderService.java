@@ -13,6 +13,7 @@ import com.hello.core.domain.item.Item;
 import com.hello.core.repository.ItemRepository;
 import com.hello.core.repository.MemberRepository;
 import com.hello.core.repository.OrderRepository;
+import com.hello.core.repository.OrderSearch;
 
 import lombok.RequiredArgsConstructor;
 
@@ -64,8 +65,8 @@ public class OrderService {
 	}
 	
 	//검색
-//	public List<Order> findOrders(OrderSearch orderSearch) {
-//		return orderRepository.findAll(orderSearch);
-//	}
+	public List<Order> findOrders(OrderSearch orderSearch) {
+		return orderRepository.findAllByString(orderSearch);
+	}
 	
 }
