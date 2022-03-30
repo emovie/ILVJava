@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/./EmbodyJPA
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    
+logging:
+  level:
+    '[org.hibernate.sql]': debug
+#    '[org.hibernate.type]': trace
