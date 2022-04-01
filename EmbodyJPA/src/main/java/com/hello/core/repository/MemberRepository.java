@@ -1,4 +1,4 @@
-package com.hello.core.Repository;
+package com.hello.core.repository;
 
 import java.util.List;
 

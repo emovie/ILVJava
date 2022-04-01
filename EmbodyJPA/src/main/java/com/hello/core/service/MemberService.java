@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hello.core.Repository.MemberRepository;
 import com.hello.core.domain.Member;
+import com.hello.core.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +30,8 @@ public class MemberService {
 	
 	@Transactional
 	public String login(Member member) {
-		return memberRepository.login(member.getId(), member.getPw());
+		String username = memberRepository.login(member.getId(), member.getPw());
+		return (username != null ? username : "x");
 	}
 	
 }

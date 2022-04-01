@@ -1,6 +1,7 @@
 package com.hello.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import javax.persistence.EntityManager;
 
@@ -10,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hello.core.Repository.MemberRepository;
 import com.hello.core.domain.Member;
+import com.hello.core.domain.Member.MemberBuilder;
+import com.hello.core.repository.MemberRepository;
 import com.hello.core.service.MemberService;
+
+import junit.framework.AssertionFailedError;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -29,10 +34,10 @@ class MemberRepositoryTest {
 	@Rollback(false)
 	public void repo_회원가입() throws Exception {
 		//given
-		Member member = new Member();
-		member.setId("admin");
-		member.setPw("admin");
-		member.setUsername("admin");
+		Member member = Member.builder()
+						.id("admin")
+						.pw("admin")
+						.username("admin").build();
 		
 		//when
 		String saveId = memberRepository.save(member);
@@ -49,10 +54,10 @@ class MemberRepositoryTest {
 	@Test
 	public void 로그인() throws Exception {
 		//given
-		Member member = new Member();
-		member.setId("admin");
-		member.setPw("admin1234");
-		member.setUsername("admin");
+		Member member = Member.builder()
+						.id("admin")
+						.pw("admin")
+						.username("admin").build();
 		try {
 			memberRepository.save(member);
 		} catch (Exception e) {
@@ -77,16 +82,15 @@ class MemberRepositoryTest {
 	@Rollback(false)
 	public void serv_회원가입() throws Exception {
 		//given
-		Member member = new Member();
-		member.setId("admin");
-		member.setPw("admin1234");
-		member.setUsername("admin");
+		Member member = Member.builder()
+						.id("admin")
+						.pw("admin")
+						.username("admin").build();
 		
-		Member member2 = new Member();
-		member2.setId("admin2");
-		member2.setPw("admin2222");
-		member2.setUsername("admin2");
-		
+		Member member2 = Member.builder()
+						.id("admin")
+						.pw("admin")
+						.username("admin").build();
 		try {
 			memberRepository.save(member);
 		} catch (Exception e) {
@@ -105,19 +109,27 @@ class MemberRepositoryTest {
 	@Rollback(false)
 	public void serv_로그인() throws Exception {
 		//given
-		Member member = new Member();
-		member.setId("admin");
-		member.setPw("admin1234");
-		member.setUsername("admin");
-		
+		Member member = Member.builder()
+						.id("admin")
+						.pw("admin")
+						.username("admin").build();
 		try {
 			memberRepository.save(member);
 		} catch (Exception e) {
-			new Exception("회원가입에 실패했습니다.");
+			fail("회원가입에 실패했습니다.");
 		}
 		
 		//when
-		String userName = memberService.login(member);
+		String userName = "";
+		Member member2 = Member.builder()
+						.id("admin")
+						.pw("admin").build();
+		try {
+			userName = memberService.login(member2);
+		}catch (Exception e) {
+			assertThat(userName).isNotEqualTo(member.getUsername());
+			fail("로그인에 실패했습니다.");
+		}
 		
 		//then
 		assertThat(userName).isEqualTo("admin");
