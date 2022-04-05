@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hello.core.DTO.JoinMemberDTO;
+import com.hello.core.DTO.MemberDTO;
 import com.hello.core.domain.Member;
 import com.hello.core.domain.Member.MemberBuilder;
 import com.hello.core.repository.MemberRepository;
@@ -37,7 +39,7 @@ class MemberRepositoryTest {
 		Member member = Member.builder()
 						.id("admin")
 						.pw("admin")
-						.username("admin").build();
+						.userName("admin").build();
 		
 		//when
 		String saveId = memberRepository.save(member);
@@ -45,7 +47,7 @@ class MemberRepositoryTest {
 
 		//then
 		assertThat(findmember.getId()).isEqualTo(member.getId());
-		assertThat(findmember.getUsername()).isEqualTo(member.getUsername());
+		assertThat(findmember.getUserName()).isEqualTo(member.getUserName());
 		assertThat(findmember).isEqualTo(member);
 	}
 
@@ -57,7 +59,7 @@ class MemberRepositoryTest {
 		Member member = Member.builder()
 						.id("admin")
 						.pw("admin")
-						.username("admin").build();
+						.userName("admin").build();
 		try {
 			memberRepository.save(member);
 		} catch (Exception e) {
@@ -85,12 +87,10 @@ class MemberRepositoryTest {
 		Member member = Member.builder()
 						.id("admin")
 						.pw("admin")
-						.username("admin").build();
+						.userName("admin").build();
 		
-		Member member2 = Member.builder()
-						.id("admin")
-						.pw("admin")
-						.username("admin").build();
+		JoinMemberDTO member2 = new JoinMemberDTO("admin", "admin", "admin"); 
+				
 		try {
 			memberRepository.save(member);
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ class MemberRepositoryTest {
 		String joinId = memberService.join(member2);
 		
 		//then
-		assertThat(member2.getUsername()).isEqualTo(joinId);
+		assertThat(member2.getUserName()).isEqualTo(joinId);
 	}
 
 	@Transactional
@@ -112,7 +112,7 @@ class MemberRepositoryTest {
 		Member member = Member.builder()
 						.id("admin")
 						.pw("admin")
-						.username("admin").build();
+						.userName("admin").build();
 		try {
 			memberRepository.save(member);
 		} catch (Exception e) {
@@ -121,13 +121,11 @@ class MemberRepositoryTest {
 		
 		//when
 		String userName = "";
-		Member member2 = Member.builder()
-						.id("admin")
-						.pw("admin").build();
+		MemberDTO member2 = new MemberDTO("admin", "admin");
 		try {
 			userName = memberService.login(member2);
 		}catch (Exception e) {
-			assertThat(userName).isNotEqualTo(member.getUsername());
+			assertThat(userName).isNotEqualTo(member.getUserName());
 			fail("로그인에 실패했습니다.");
 		}
 		

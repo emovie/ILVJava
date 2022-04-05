@@ -1,20 +1,17 @@
 package com.hello.core.DTO;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Builder
-@Getter @Setter @ToString
+@Data
+@AllArgsConstructor
 public class MemberDTO {
-
-	@NotBlank(message = "아이디가 누락되었습니다")
+	
+	@NotBlank
 	private String id;
-	@NotBlank(message = "비밀번호가 누락되었습니다")
+	@NotBlank
 	private String pw;
 	
 }

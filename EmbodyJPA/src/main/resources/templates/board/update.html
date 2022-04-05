@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Board Update</title>
+<script type="text/javascript" th:inline="javascript">
+	function boardDelete() {
+		if(window.confirm("정말 삭제하시겠습니까?")) {
+			location.href = ("/boardDelete/" + [[${board.idx}]]);					
+		}
+	}
+</script>
+</head>
+<body>
+	<div>Board Update</div>
+	<form method="POST" action="/boardUpdate">
+		<input type="hidden" th:value="${board.idx}" name="idx">
+		<input type="hidden" th:value="${board.boardLike}" name="boardLike">
+		<input type="hidden" th:value="${board.createDate}" name="createDate">
+
+		<div>title<input type="text" name="title" th:value="${board.title}"></div>
+		<div>descript<input type="text" name="descript" th:value="${board.descript}"></div>
+		<div>
+			pageLink
+			<input type="text" name="pageLink" th:value="${board.pageLink}">
+			<input type="checkbox" name="isPage" th:value="${board.isPage}">
+		</div>
+		<div>videoLink
+			<input type="text" name="videoLink" th:value="${board.videoLink}">
+			<input type="checkbox" name="isBoard" value="Y" th:value="${board.isBoard}">
+		</div>
+		<div>
+			<input type="submit" value="수정">
+			<input type="button" value="삭제" id="DeleteBtn" onclick='boardDelete()'>
+		</div>
+	</form>
+</body>
+</html>

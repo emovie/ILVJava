@@ -15,27 +15,27 @@ public class MemberRepository {
 	@PersistenceContext
 	EntityManager em;
 	
-	public String save(Member member) {
+	public String save(Member member) throws Exception {
 		em.persist(member);
 		return member.getId();
 	}
 	
-	public Member findOne(String id) {
+	public Member findOne(String id) throws Exception {
 		return em.find(Member.class, id);
 	}
 	
-	public List<Member> findById(String id) {
+	public List<Member> findById(String id) throws Exception {
 		return em.createQuery("select m from Member m where m.id = :id",Member.class)
 							.setParameter("id", id)
 							.getResultList();
 	}
 
-	public String login(String id, String pw) {
+	public String login(String id, String pw) throws Exception {
 		Member member = em.createQuery("select m from Member m where m.id = :id and m.pw = :pw",Member.class)
 					.setParameter("id", id)
 					.setParameter("pw", pw)
 					.getSingleResult();
-		return member.getUsername();
+		return member.getUserName();
 	}
 	
 }

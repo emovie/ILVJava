@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Board Write</title>
+</head>
+<body>
+	<div>Board Write</div>
+	<form method="POST" action="/boardWrite">
+		<div>title<input type="text" name="title"></div>
+		<div>descript<input type="text" name="descript"></div>
+		<div>
+			pageLink
+			<input type="text" name="pageLink">
+			<input type="checkbox" name="isPage" value="Y">
+		</div>
+		<div>videoLink
+			<input type="text" name="videoLink">
+			<input type="checkbox" name="isBoard" value="Y">
+		</div>
+		<div><input type="submit" value="Create"></div>
+	</form>
+</body>
+</html>

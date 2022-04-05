@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>My Page</title>
+</head>
+<body>
+	
+	<a href="/boardWrite">Board Create</a>
+	<span th:each="board : ${boardList}">
+		<a th:href="|/boardRead/${board.idx}|">
+			<div th:text="${board.title}"></div>
+			<div th:text="${board.isBoard}"></div>
+			<div th:text="${board.isPage}"></div>
+			<div th:text="${board.createDate}"></div>
+		</a>
+	</span>
+	
+	<a href="/">HOME</a>
+</body>
+</html>

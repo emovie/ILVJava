@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hello.core.DTO.JoinMemberDTO;
+import com.hello.core.DTO.MemberDTO;
 import com.hello.core.domain.Member;
 import com.hello.core.repository.MemberRepository;
 
@@ -18,20 +20,26 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	
 	@Transactional
-	public String join(Member member) {
+	public String join(JoinMemberDTO member) throws Exception {
 		validateDuplicate(member);
-		return memberRepository.save(member);
+		
+		Member saveMember = Member.builder()
+							.id(member.getId())
+							.pw(member.getPw())
+							.userName(member.getUserName()).build();
+		
+		return memberRepository.save(saveMember);
 	}
 	
-	private void validateDuplicate(Member member) {
+	private void validateDuplicate(JoinMemberDTO member) throws Exception {
 		List<Member> findMembers = memberRepository.findById(member.getId());
 		if(!findMembers.isEmpty()) throw new IllegalStateException("이미 존재하는 회원입니다.");
 	}
 	
 	@Transactional
-	public String login(Member member) {
+	public String login(MemberDTO member) throws Exception {
 		String username = memberRepository.login(member.getId(), member.getPw());
-		return (username != null ? username : "x");
+		return (username != null ? username : "");
 	}
 	
 }

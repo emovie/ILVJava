@@ -32,19 +32,20 @@ class BoardRepositoryTest {
 	@Transactional
 	public void 게시판저장() throws Exception {
 		//given
-		Board board = new Board();
-		board.setTitle("title1");
-		board.setDescript("descript1");
-		board.setPageLink("https://www.naver.com/");
-		board.setVideoLink("https://www.google.com/");
-		board.setIsBoard("Y");
-		board.setIsPage("Y");
-		board.setIsDel("N");
-		board.setCreateDate("2022-03-31");
-		board.setBoardLike(0L);
-		
+		Board board = Board.builder()
+					.title("title1")
+					.descript("descript1")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("Y")
+					.isPage("Y")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+					
 		//when
-		Long boardIdx = boardRepository.boardSave(board);
+		Long boardIdx = boardRepository.boardCreate(board);
 		
 		//then
 		Board findBoard = boardRepository.findOne(boardIdx);
@@ -56,17 +57,18 @@ class BoardRepositoryTest {
 	@Transactional
 	public void 게시판개별출력() throws Exception {
 		//given
-		Board board = new Board();
-		board.setTitle("title2");
-		board.setDescript("descript2");
-		board.setPageLink("https://www.naver.com/");
-		board.setVideoLink("https://www.google.com/");
-		board.setIsBoard("N");
-		board.setIsPage("N");
-		board.setIsDel("N");
-		board.setCreateDate("2022-03-31");
-		board.setBoardLike(0L);
-		boardRepository.boardSave(board);
+		Board board = Board.builder()
+					.title("title2")
+					.descript("descript2")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("N")
+					.isPage("N")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+		boardRepository.boardCreate(board);
 
 		//when
 		Board findBoard = boardRepository.findOne(2L);
@@ -83,28 +85,30 @@ class BoardRepositoryTest {
 	@Transactional
 	public void 게시판전체출력() throws Exception {
 		//given
-		Board board = new Board();
-		board.setTitle("title1");
-		board.setDescript("descript1");
-		board.setPageLink("https://www.naver.com/");
-		board.setVideoLink("https://www.google.com/");
-		board.setIsBoard("Y");
-		board.setIsPage("Y");
-		board.setIsDel("N");
-		board.setCreateDate("2022-03-31");
-		board.setBoardLike(0L);
-		boardRepository.boardSave(board);
-		Board board2 = new Board();
-		board2.setTitle("title2");
-		board2.setDescript("descript2");
-		board2.setPageLink("https://www.naver.com/");
-		board2.setVideoLink("https://www.google.com/");
-		board2.setIsBoard("N");
-		board2.setIsPage("N");
-		board2.setIsDel("N");
-		board2.setCreateDate("2022-03-31");
-		board2.setBoardLike(0L);
-		boardRepository.boardSave(board2);
+		Board board = Board.builder()
+					.title("title1")
+					.descript("descript1")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("Y")
+					.isPage("Y")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+		boardRepository.boardCreate(board);
+		Board board2 = Board.builder()
+					.title("title2")
+					.descript("descript2")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("N")
+					.isPage("N")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+		boardRepository.boardCreate(board2);
 		
 		//when
 		List<Board> boardList = boardRepository.findAll();
@@ -121,17 +125,18 @@ class BoardRepositoryTest {
 	@Transactional
 	public void 게시판수정() throws Exception {
 		//given
-		Board board = new Board();
-		board.setTitle("title1");
-		board.setDescript("descript1");
-		board.setPageLink("https://www.naver.com/");
-		board.setVideoLink("https://www.google.com/");
-		board.setIsBoard("Y");
-		board.setIsPage("Y");
-		board.setIsDel("N");
-		board.setCreateDate("2022-03-31");
-		board.setBoardLike(0L);
-		boardRepository.boardSave(board);
+		Board board = Board.builder()
+					.title("title1")
+					.descript("descript1")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("Y")
+					.isPage("Y")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+		boardRepository.boardCreate(board);
 		Long boardIdx = 1L;
 		String title = "new title";
 		String descript = "new descript";
@@ -159,17 +164,18 @@ class BoardRepositoryTest {
 	@Transactional
 	public void 게시판삭제() throws Exception {
 		//given
-		Board board = new Board();
-		board.setTitle("title1");
-		board.setDescript("descript1");
-		board.setPageLink("https://www.naver.com/");
-		board.setVideoLink("https://www.google.com/");
-		board.setIsBoard("Y");
-		board.setIsPage("Y");
-		board.setIsDel("N");
-		board.setCreateDate("2022-03-31");
-		board.setBoardLike(0L);
-		boardRepository.boardSave(board);
+		Board board = Board.builder()
+					.title("title1")
+					.descript("descript1")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("Y")
+					.isPage("Y")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+		boardRepository.boardCreate(board);
 		Long boardIdx = 1L;
 		
 		//when
@@ -184,17 +190,18 @@ class BoardRepositoryTest {
 	@Transactional
 	public void 좋아요클릭() throws Exception {
 		//given
-		Board board = new Board();
-		board.setTitle("title1");
-		board.setDescript("descript1");
-		board.setPageLink("https://www.naver.com/");
-		board.setVideoLink("https://www.google.com/");
-		board.setIsBoard("Y");
-		board.setIsPage("Y");
-		board.setIsDel("N");
-		board.setCreateDate("2022-03-31");
-		board.setBoardLike(0L);
-		boardRepository.boardSave(board);
+		Board board = Board.builder()
+					.title("title1")
+					.descript("descript1")
+					.pageLink("https://www.naver.com/")
+					.videoLink("https://www.google.com/")
+					.isBoard("Y")
+					.isPage("Y")
+					.isDel("N")
+					.createDate("2022-03-31")
+					.boardLike(0L)
+					.build();
+		boardRepository.boardCreate(board);
 		Long boardIdx = 1L;
 		Long boardLikeClick = 5L;
 		

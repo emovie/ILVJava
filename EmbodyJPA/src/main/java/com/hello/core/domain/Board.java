@@ -6,11 +6,17 @@ import javax.persistence.Id;
 
 import lombok.Setter;
 import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter @Setter
-@ToString
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board {
 
 	@Id @GeneratedValue
