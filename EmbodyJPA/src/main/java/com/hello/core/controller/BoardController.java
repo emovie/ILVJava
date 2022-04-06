@@ -31,10 +31,11 @@ public class BoardController {
 	private final BoardRepository boardRepository;
 	
 	@GetMapping(value = "/")
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
 		try {
 			List<BoardDTO> boardList =  boardService.findAll();
 			model.addAttribute("boardList", boardList);
+			model.addAttribute("userName", session.getAttribute("userName"));
 			return "index";
 		}catch (Exception e) {
 			e.printStackTrace();

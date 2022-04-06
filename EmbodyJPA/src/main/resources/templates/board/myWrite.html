@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Board Write</title>
+<style>
+	.slideCheckBox {
+		display:block;
+		border: solid #efefef;
+		width: 60px;
+		border-radius: 50px;
+		background-color: #efefef;
+	}
+	.slideCheckBtn {
+		border-radius: 50%;
+		width: 35%;
+		margin: 1px;
+		background-color: #fafafa;
+	}
+</style>
+<script>
+	
+</script>
 </head>
 <body>
 	<div>Board Write</div>
@@ -13,6 +31,9 @@
 			pageLink
 			<input type="text" name="pageLink">
 			<input type="checkbox" name="isPage" value="Y">
+			<span class="slideCheckBox">
+				<div class="slideCheckBtn" id="isPage" value="N">&nbsp;</div>
+			</span>
 		</div>
 		<div>videoLink
 			<input type="text" name="videoLink">
@@ -20,5 +41,7 @@
 		</div>
 		<div><input type="submit" value="Create"></div>
 	</form>
+	
+	<a href="/myPage">HOME</a>
 </body>
 </html>

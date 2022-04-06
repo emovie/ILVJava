@@ -34,8 +34,10 @@
 	<div th:text="${board.title}"></div>
 	<div th:text="${board.createDate}"></div>
 	<div th:text="${board.descript}"></div>
-	<div>PAGE <a th:href="${board.pageLink}">Link</a></div>
-	<div>YOUTUBE <a th:href="${board.videoLink}">Link</a></div>
+	<th:block th:if="${board.isPage}==Y"><div>PAGE <a th:href="${board.pageLink}">Link</a></div></th:block>
+	<div>YOUTUBE 
+		<iframe width="560" height="315" th:src="${board.videoLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</div>
 	<div id="boardLikeBtn" th:text="${board.boardLike}" onclick="boardLikeClick()"></div>
 </div>
 

@@ -15,8 +15,8 @@
 	</div>
 	<div>링크 공개여부 <span th:text="${board.isPage}"></span></div>
 	<div>
-		<span th:text="${board.videoLink}"></span>
-		<a th:href="${board.videoLink}">LINK</a>
+		<th:block th:text="${board.videoLink}"/>
+		<iframe width="560" height="315" th:src="${board.videoLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	</div>
 	<div th:text="${board.boardLike}"></div>
 	<div th:text="${board.createDate}"></div>

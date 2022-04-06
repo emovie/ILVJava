@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hello.core.DTO.BoardDTO;
 import com.hello.core.DTO.JoinMemberDTO;
 import com.hello.core.DTO.MemberDTO;
+import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
 import com.hello.core.service.MemberService;
 
@@ -31,7 +32,7 @@ public class MemberController {
 	
 	@GetMapping(value = "/join")
 	public String joinForm() {
-		return "join";
+		return "member/join";
 	}
 	
 	@PostMapping(value = "/join")
@@ -47,7 +48,7 @@ public class MemberController {
 	
 	@GetMapping(value = "/login")
 	public String loginForm() {
-		return "login";
+		return "member/login";
 	}
 	
 	@PostMapping(value = "/login")
@@ -77,11 +78,24 @@ public class MemberController {
 		return data;
 	}
 	
+	@GetMapping(value = "/logout")
+	public String logout(Model model, HttpSession session) {
+		try {
+			session.removeAttribute("userName");
+			
+			List<BoardDTO> boardList = boardService.findAll();
+			model.addAttribute("boardList", boardList);
+			model.addAttribute("userName", session.getAttribute("userName"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		return "index";
+	}
+	
 	@GetMapping(value = "/myPage")
 	public String myPage(Model model, HttpSession session) {
-		
 		if(session.getAttribute("userName") == null) return "login";
-		
 		try {
 			List<BoardDTO> boardList = boardService.findAll();
 			model.addAttribute("boardList" , boardList);

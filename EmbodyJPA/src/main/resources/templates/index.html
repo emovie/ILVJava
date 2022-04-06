@@ -5,13 +5,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="/login">login</a>
-	<a href="/join">join</a>
+	<script src="header.html" ></script>	
+	<th:block th:if="${userName} != null">
+		<span><a href="/myPage">My Page</a></span>
+		<span><a href="/logout">Logout</a></span>
+	</th:block>
+	<th:block th:if="${userName} == null">
+		<a href="/login">Login</a>
+	</th:block>
 	
 	<span th:each="board : ${boardList}">
 		<a th:href="|/board/${board.idx}|">
 			<div th:text="${board.title}"></div>
-			<div th:text="${board.videoLink}"></div>
 			<div th:text="${board.boardLike}"></div>
 		</a>
 	</span>
