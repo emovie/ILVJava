@@ -1,14 +1,19 @@
 package com.hello.core.controller;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hello.core.DTO.BoardDTO;
 import com.hello.core.DTO.BoardWriteDTO;
@@ -25,13 +30,63 @@ public class BoardController {
 	private final BoardService boardService;
 	private final BoardRepository boardRepository;
 	
+	@GetMapping(value = "/")
+	public String home(Model model) {
+		try {
+			List<BoardDTO> boardList =  boardService.findAll();
+			model.addAttribute("boardList", boardList);
+			return "index";
+		}catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	@GetMapping(value = "/board/{idx}")
+	public String board(@PathVariable("idx") Long idx, Model model) {
+		try {
+			BoardDTO board = boardService.boardToBoardDTO(boardRepository.findOne(idx));
+			model.addAttribute("board", board);
+			return "board/read";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	@PostMapping(value = "/boardLike")
+	public @ResponseBody JSONObject boardLike(@RequestBody HashMap<String, String> param, HttpSession session) {
+		Object boardLikeFlag = session.getAttribute("boardLikeFlag");
+		HashMap<String, String> map = new HashMap<>();
+		String message = "";
+		
+		if(boardLikeFlag != null) message = "이미 처리되었습니다 !";
+		else {
+			try {
+				map.put("boardLikeCnt", boardService.boardLikeAddOne(param.get("idx")));
+				session.setAttribute("boardLikeFlag", "like:-)");
+				session.setMaxInactiveInterval(-1);
+			} catch (Exception e) {
+				e.printStackTrace();
+				message = "ERROR";
+			}
+		}
+		map.put("message", message);
+		return new JSONObject(map);
+	}
+	
+	// 관리자 접속 Board 
 	@GetMapping(value = "/boardWrite")
-	public String boardCreateForm() {
-		return "board/write";
+	public String boardCreateForm(HttpSession session) {
+		if(session.getAttribute("userName") == null) return "login";
+		return "board/myWrite";
 	}
 	
 	@PostMapping(value = "/boardWrite")
-	public String boardCreate(BoardWriteDTO board, Model model) {
+	public String boardCreate(BoardWriteDTO board, Model model, HttpSession session) {
+		
+		if(session.getAttribute("userName") == null) return "login";
+		
 		try {
 			boardService.boardCreate(board);
 			List<BoardDTO> boardList = boardService.findAll();
@@ -46,12 +101,15 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = "/boardRead/{idx}")
-	public String boardRead(@PathVariable("idx") Long idx, Model model) {
+	public String boardRead(@PathVariable("idx") Long idx, Model model,HttpSession session) {
+		
+		if(session.getAttribute("userName") == null) return "login";
+		
 		try {
 			Board findBoard = boardRepository.findOne(idx);
 			BoardDTO boardDTO = boardService.boardToBoardDTO(findBoard);
 			model.addAttribute("board", boardDTO);
-			return "board/read";
+			return "board/myRead";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -59,12 +117,15 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = "/boardUpdate/{idx}")
-	public String boardUpdateForm(@PathVariable("idx") Long idx, Model model) {
+	public String boardUpdateForm(@PathVariable("idx") Long idx, Model model, HttpSession session) {
+		
+		if(session.getAttribute("userName") == null) return "login";
+		
 		try {
 			Board board = boardRepository.findOne(idx);
 			BoardDTO boardDTO = boardService.boardToBoardDTO(board);
 			model.addAttribute("board", boardDTO);
-			return "board/update";
+			return "board/myUpdate";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -72,7 +133,10 @@ public class BoardController {
 	}
 	
 	@PostMapping(value = "/boardUpdate")
-	public String boardUpdate(BoardDTO updateBoard, Model model) {
+	public String boardUpdate(BoardDTO updateBoard, Model model, HttpSession session) {
+		
+		if(session.getAttribute("userName") == null) return "login";
+		
 		try {
 			boardService.boardUpdate(updateBoard);
 			List<BoardDTO> boardList = boardService.findAll();
@@ -85,7 +149,10 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = "/boardDelete/{idx}")
-	public String boardDelete(@PathVariable("idx") Long idx, Model model) {
+	public String boardDelete(@PathVariable("idx") Long idx, Model model, HttpSession session) {
+		
+		if(session.getAttribute("userName") == null) return "login";
+		
 		try {
 			boardRepository.boardDelete(idx);
 			List<BoardDTO> boardList = boardService.findAll();

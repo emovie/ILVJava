@@ -4,19 +4,11 @@
 <meta charset="UTF-8">
 <title>login</title>
 <script type="text/javascript" th:inline="javascript">
-	loginFailCheck();
-	
-	function loginFailCheck() {
-		const message = [[${message}]];
-		if(message) {
-			alert(message);
-		}
-	}
 	function loginInputCheck() {
 		const inputId = document.getElementById('id').value;
 		const inputPw = document.getElementById('pw').value;
-		if(!inputId) { alert('아이디를 입력해주세요!'); return; }
-		if(!inputPw) { alert('비밀번호를 입력해주세요!'); return; }
+		if(!inputId) { alert('아이디를 입력해주세요.'); return; }
+		if(!inputPw) { alert('비밀번호를 입력해주세요.'); return; }
 		login(inputId, inputPw);
 	}
 	function login(id, pw) {
@@ -30,6 +22,15 @@
 	       	},
 			body : JSON.stringify(data)
 		})
+		.then( data => { return data.json(); })
+	  	.then( json => {
+ 	   		pageRedirect(json.path);
+	  	});
+	}
+	function pageRedirect(path) {
+		console.log("page : "+path);
+		if(path == "") alert('아이디 또는 비밀번호를 확인해주세요.')
+		else location.href = path;
 	}
 </script>
 </head>

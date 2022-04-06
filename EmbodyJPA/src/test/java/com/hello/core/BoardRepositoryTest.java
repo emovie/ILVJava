@@ -137,17 +137,17 @@ class BoardRepositoryTest {
 					.boardLike(0L)
 					.build();
 		boardRepository.boardCreate(board);
-		Long boardIdx = 1L;
-		String title = "new title";
-		String descript = "new descript";
-		String pageLink = "new pageLink";
-		String videoLink = "new videoLink";
-		String isBoard = "Y";
-		String isPage ="Y";
-		Long boardLike = 5L; 
+		Board board2 = Board.builder()
+				.title("new title")
+				.descript("new descript")
+				.pageLink("new pageLink")
+				.videoLink("new videoLink")
+				.isBoard("Y")
+				.isPage("Y")
+				.build();
 		
 		//when
-		boardRepository.boardUpdate(boardIdx, title, descript, pageLink, videoLink, isBoard, isPage, boardLike);
+		boardRepository.boardUpdate(board2);
 		
 		//then
 		Board findBoard = boardRepository.findOne(1L);

@@ -1,20 +1,18 @@
 package com.hello.core.controller;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
-
 import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hello.core.DTO.BoardDTO;
 import com.hello.core.DTO.JoinMemberDTO;
@@ -52,48 +50,38 @@ public class MemberController {
 		return "login";
 	}
 	
-//	@PostMapping(value = "/login")
-//	public String login(MemberDTO member, Model model, HttpSession session) {
-//		try {
-//			String userName = memberService.login(member);
-//			List<BoardDTO> boardList = boardService.findAll();
-//			model.addAttribute("boardList" , boardList);
-//			model.addAttribute("userName", userName);
-//			return (!userName.isEmpty() ? "member/myPage" : "redirect:/");
-//		} catch (NoResultException e) {
-//			model.addAttribute("message","아이디 또는 비밀번호를 확인해주세요.");
-//			return "login";
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "error";
-//		}
-//	}
-	
 	@PostMapping(value = "/login")
-	public String login(HttpServletRequest request, HttpSession session) {
+	public @ResponseBody JSONObject login(@RequestBody HashMap<String, String> param, HttpSession session) {
+		MemberDTO member = new MemberDTO(param.get("id"), param.get("pw"));
+		HashMap<String, String> map = new HashMap<>();
+		JSONObject data;
+		String path = "";
+		
 		try {
-			BufferedReader input = new BufferedReader(new InputStreamReader(request.getInputStream()));
-			StringBuilder builder = new StringBuilder();
-			String buffer;
-			while((buffer = input.readLine()) != null) {
-				if(builder.length() > 0) {
-					builder.append("\n");
-				}
-				builder.append(buffer);
+			String userName = memberService.login(member);
+			if(!userName.equals("")) {
+				path = "/myPage";
+				session.setAttribute("userName", userName);
+				session.setMaxInactiveInterval(-1);
 			}
-			System.out.println("fetch login : " + builder.toString());
+			else path = "";
+			map.put("path", path);
 		} catch (NoResultException e) {
-			// message 추가하기
-			return "login";
+			map.put("path", "");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			map.put("path", "error");
 		}
-		return "member/myPage";
+		
+		data = new JSONObject(map);
+		return data;
 	}
 	
 	@GetMapping(value = "/myPage")
-	public String myPage(Model model) {
+	public String myPage(Model model, HttpSession session) {
+		
+		if(session.getAttribute("userName") == null) return "login";
+		
 		try {
 			List<BoardDTO> boardList = boardService.findAll();
 			model.addAttribute("boardList" , boardList);

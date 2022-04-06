@@ -2,26 +2,44 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Board</title>
+<title>Read</title>
+<style>
+	#boardLikeBtn {
+		border : solid;
+	}
+</style>
+<script th:inline="javascript">
+	function boardLikeClick() {
+		var url = "/boardLike";
+		var data = { 'idx' : [[${board.idx}]] };
+		fetch(url, {
+			method : 'POST',
+			headers : { 'Content-Type' : 'application/json' },
+			body : JSON.stringify(data)
+		})
+		.then(data => { return data.json(); })
+		.then(json => {
+			var message = json.message;
+			if(message != "" && message != null) alert(message);
+			else document.getElementById('boardLikeBtn').innerHTML = json.boardLikeCnt;
+		})
+	}
+</script>
 </head>
 <body>
 
+<h1>read!</h1>
+
+<div>
 	<div th:text="${board.title}"></div>
-	<div th:text="${board.descript}"></div>
-	<div>게시판 공개여부 <span th:text="${board.isBoard}"></span></div>
-	<div>
-		<span th:text="${board.pageLink}"></span>
-		<a th:href="${board.pageLink}">LINK</a>
-	</div>
-	<div>링크 공개여부 <span th:text="${board.isPage}"></span></div>
-	<div>
-		<span th:text="${board.videoLink}"></span>
-		<a th:href="${board.videoLink}">LINK</a>
-	</div>
-	<div th:text="${board.boardLike}"></div>
 	<div th:text="${board.createDate}"></div>
-	
-	<a href="">뒤로</a>
-	<a th:href="|/boardUpdate/${board.idx}|">수정</a>
+	<div th:text="${board.descript}"></div>
+	<div>PAGE <a th:href="${board.pageLink}">Link</a></div>
+	<div>YOUTUBE <a th:href="${board.videoLink}">Link</a></div>
+	<div id="boardLikeBtn" th:text="${board.boardLike}" onclick="boardLikeClick()"></div>
+</div>
+
+<a href="/">HOME</a>
+
 </body>
 </html>

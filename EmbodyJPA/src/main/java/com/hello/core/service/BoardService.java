@@ -55,6 +55,12 @@ public class BoardService {
 		return boardListDTO;
 	}
 	
+	@Transactional
+	public String boardLikeAddOne(String idx) throws Exception {
+		Long boardLikeCnt = boardRepository.boardLikeAddOne(Long.valueOf(idx));
+		return String.valueOf(boardLikeCnt);
+	}
+	
 	public BoardDTO boardToBoardDTO(Board board) {
 		BoardDTO boardDTO = new BoardDTO();
 		boardDTO.setIdx(board.getIdx());
