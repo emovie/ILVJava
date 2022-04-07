@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Read</title>
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <style>
 	#boardLikeBtn {
 		border : solid;
@@ -25,23 +23,24 @@
 		})
 	}
 </script>
-</head>
 <body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
 
-<h1>read!</h1>
-
-<div>
-	<div th:text="${board.title}"></div>
-	<div th:text="${board.createDate}"></div>
-	<div th:text="${board.descript}"></div>
-	<th:block th:if="${board.isPage}==Y"><div>PAGE <a th:href="${board.pageLink}">Link</a></div></th:block>
-	<div>YOUTUBE 
-		<iframe width="560" height="315" th:src="${board.videoLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<main>
+	<h1>read!</h1>
+	
+	<div>
+		<div th:text="${board.title}"></div>
+		<div th:text="${board.createDate}"></div>
+		<div th:text="${board.descript}"></div>
+		<th:block th:if="${board.isPage}==Y"><div>PAGE <a th:href="${board.pageLink}">Link</a></div></th:block>
+		<div>YOUTUBE 
+			<iframe width="560" height="315" th:src="${board.videoLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		</div>
+		<div id="boardLikeBtn" th:text="${board.boardLike}" onclick="boardLikeClick()"></div>
 	</div>
-	<div id="boardLikeBtn" th:text="${board.boardLike}" onclick="boardLikeClick()"></div>
-</div>
+</main>
 
-<a href="/">HOME</a>
-
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

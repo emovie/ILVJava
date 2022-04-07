@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Board Update</title>
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <script type="text/javascript" th:inline="javascript">
 	function boardDelete() {
 		if(window.confirm("정말 삭제하시겠습니까?")) {
 			location.href = ("/boardDelete/" + [[${board.idx}]]);					
 		}
 	}
+	function flagValueChange(element){
+		element.value = (element.value == "Y" ? "N" : "Y");
+		console.log("element : "+element.value);
+	}
 </script>
-</head>
 <body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
+
+<main>	
 	<div>Board Update</div>
 	<form method="POST" action="/boardUpdate">
 		<input type="hidden" th:value="${board.idx}" name="idx">
@@ -23,16 +27,27 @@
 		<div>
 			pageLink
 			<input type="text" name="pageLink" th:value="${board.pageLink}">
-			<input type="checkbox" name="isPage" th:value="${board.isPage}">
+			<input type="checkbox" name="isPage" th:value="${board.isPage}"
+				th:checked="${board.isPage == 'Y'}"
+				onclick="flagValueChange(this)">
 		</div>
-		<div>videoLink
+		<div>
+			videoLink
 			<input type="text" name="videoLink" th:value="${board.videoLink}">
-			<input type="checkbox" name="isBoard" value="Y" th:value="${board.isBoard}">
+		</div>
+		<div>
+			비공개 여부
+			<input type="checkbox" name="isBoard" th:value="${board.isBoard}"
+				th:checked="${board.isBoard == 'Y'}"
+				onclick="flagValueChange(this)">
 		</div>
 		<div>
 			<input type="submit" value="수정">
 			<input type="button" value="삭제" id="DeleteBtn" onclick='boardDelete()'>
 		</div>
 	</form>
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

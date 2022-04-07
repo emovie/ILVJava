@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Board</title>
-</head>
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
 
+<main>	
 	<div th:text="${board.title}"></div>
 	<div th:text="${board.descript}"></div>
-	<div>게시판 공개여부 <span th:text="${board.isBoard}"></span></div>
+	<div>게시판 비공개여부 <span th:text="${board.isBoard}"></span></div>
 	<div>
 		<span th:text="${board.pageLink}"></span>
 		<a th:href="${board.pageLink}">LINK</a>
 	</div>
-	<div>링크 공개여부 <span th:text="${board.isPage}"></span></div>
+	<div>링크 비공개여부 <span th:text="${board.isPage}"></span></div>
 	<div>
 		<th:block th:text="${board.videoLink}"/>
 		<iframe width="560" height="315" th:src="${board.videoLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -23,5 +22,8 @@
 	
 	<a href="/myPage">뒤로</a>
 	<a th:href="|/boardUpdate/${board.idx}|">수정</a>
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

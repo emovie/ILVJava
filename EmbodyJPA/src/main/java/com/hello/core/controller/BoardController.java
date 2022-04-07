@@ -33,7 +33,7 @@ public class BoardController {
 	@GetMapping(value = "/")
 	public String home(Model model, HttpSession session) {
 		try {
-			List<BoardDTO> boardList =  boardService.findAll();
+			List<BoardDTO> boardList =  boardService.findAllBoard();
 			model.addAttribute("boardList", boardList);
 			model.addAttribute("userName", session.getAttribute("userName"));
 			return "index";
@@ -44,10 +44,11 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = "/board/{idx}")
-	public String board(@PathVariable("idx") Long idx, Model model) {
+	public String board(@PathVariable("idx") Long idx, Model model, HttpSession session) {
 		try {
 			BoardDTO board = boardService.boardToBoardDTO(boardRepository.findOne(idx));
 			model.addAttribute("board", board);
+			model.addAttribute("userName", session.getAttribute("userName"));
 			return "board/read";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,14 +79,14 @@ public class BoardController {
 	
 	// 관리자 접속 Board 
 	@GetMapping(value = "/boardWrite")
-	public String boardCreateForm(HttpSession session) {
+	public String boardCreateForm(Model model, HttpSession session) {
 		if(session.getAttribute("userName") == null) return "login";
+		model.addAttribute("userName", session.getAttribute("userName"));
 		return "board/myWrite";
 	}
 	
 	@PostMapping(value = "/boardWrite")
 	public String boardCreate(BoardWriteDTO board, Model model, HttpSession session) {
-		
 		if(session.getAttribute("userName") == null) return "login";
 		
 		try {
@@ -93,8 +94,6 @@ public class BoardController {
 			List<BoardDTO> boardList = boardService.findAll();
 			model.addAttribute("boardList" , boardList);
 			return "member/myPage";
-//			model.addAttribute("boardIdx",boardIdx);
-//			return "board/read?boardIdx=" + boardIdx;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -110,6 +109,7 @@ public class BoardController {
 			Board findBoard = boardRepository.findOne(idx);
 			BoardDTO boardDTO = boardService.boardToBoardDTO(findBoard);
 			model.addAttribute("board", boardDTO);
+			model.addAttribute("userName", session.getAttribute("userName"));
 			return "board/myRead";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,6 +126,7 @@ public class BoardController {
 			Board board = boardRepository.findOne(idx);
 			BoardDTO boardDTO = boardService.boardToBoardDTO(board);
 			model.addAttribute("board", boardDTO);
+			model.addAttribute("userName", session.getAttribute("userName"));
 			return "board/myUpdate";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,6 +136,7 @@ public class BoardController {
 	
 	@PostMapping(value = "/boardUpdate")
 	public String boardUpdate(BoardDTO updateBoard, Model model, HttpSession session) {
+		System.out.println("updateBoard : "+updateBoard.toString());
 		
 		if(session.getAttribute("userName") == null) return "login";
 		

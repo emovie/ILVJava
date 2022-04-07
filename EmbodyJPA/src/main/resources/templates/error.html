@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>error</title>
-</head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <body>
-error
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
+
+<main>	
+	error
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

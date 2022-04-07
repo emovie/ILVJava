@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>join</title>
-</head>
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
+
+<main>
 	<form method="POST" action="/join">
 		<input type="text" id="id" name="id">
 		<input type="text" id="pw" name="pw">
 		<input type="text" id="userName" name="userName">
 		<button type="submit">Login</button>
 	</form>
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

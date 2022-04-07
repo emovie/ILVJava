@@ -39,9 +39,9 @@ public class BoardService {
 	
 	@Transactional
 	public Long boardUpdate(BoardDTO board) throws Exception{
-		System.out.println("boardService update : "+board.toString());
-		boardRepository.boardUpdate(BoardDTOToBoard(board));
-		return board.getIdx();
+		if(board.getIsBoard() == null) board.setIsBoard("N");
+		if(board.getIsPage() == null) board.setIsPage("N");
+		return boardRepository.boardUpdate(BoardDTOToBoard(board));
 	}
 	
 	@Transactional
@@ -51,6 +51,16 @@ public class BoardService {
 		for(Board board : boardList) {
 			BoardDTO boardDTO = boardToBoardDTO(board);
 			boardListDTO.add(boardDTO);
+		}
+		return boardListDTO;
+	}
+	
+	@Transactional
+	public List<BoardDTO> findAllBoard() throws Exception {
+		List<Board> boardList = boardRepository.findAllBoard();
+		List<BoardDTO> boardListDTO = new ArrayList<BoardDTO>();
+		for(Board board : boardList) {
+			boardListDTO.add(boardToBoardDTO(board));
 		}
 		return boardListDTO;
 	}
@@ -92,7 +102,7 @@ public class BoardService {
 	}
 
 	private String isYorN(String isFlag) throws Exception {
-		return (isFlag != null || isFlag != "" ? "Y" : "N");
+		return (isFlag == null || isFlag == "" ? "N" : "Y");
 	}
 	
 	

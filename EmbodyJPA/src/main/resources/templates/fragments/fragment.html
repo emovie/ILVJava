@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="headFragment">
+	<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	</head>
+	<style>
+	body {
+		margin : 0;
+	}
+	a {
+		color: black;
+		text-decoration: none;
+	}
+	</style>
+</th:block>
+
+
+<header th:fragment="headerFragment">
+	<a href="/" id="logo">HOME</a>
+	<span>
+		<th:block th:if="${userName} != null">
+			<span><a href="/myPage">My Page</a></span>
+			<span><a href="/logout">Logout</a></span>
+		</th:block>
+		<th:block th:if="${userName} == null">
+			<a href="/login">Login</a>
+		</th:block>
+	</span>
+</header>
+
+
+<footer th:fragment="footerFragment">
+	footer
+</footer>
+
+</html>

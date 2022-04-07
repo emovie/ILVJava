@@ -21,14 +21,15 @@ public class BoardRepository {
 		return board.getIdx();
 	}
 	
-	public void boardUpdate(Board board) throws Exception {
+	public Long boardUpdate(Board board) throws Exception {
 		Board findBoard = em.find(Board.class, board.getIdx());
 		findBoard.setTitle(board.getTitle());
 		findBoard.setDescript(!(board.getDescript() == null) ? board.getDescript() : findBoard.getDescript());
 		findBoard.setPageLink(!(board.getPageLink() == null) ? board.getPageLink() : findBoard.getPageLink());
 		findBoard.setVideoLink(!(board.getVideoLink() == null) ? board.getVideoLink() : findBoard.getVideoLink());
-		findBoard.setIsBoard(!(board.getIsBoard() == null) ? board.getIsBoard() : findBoard.getIsBoard());
-		findBoard.setIsPage(!(board.getIsPage() == null) ? board.getIsPage() : findBoard.getIsPage());
+		findBoard.setIsBoard(board.getIsBoard());
+		findBoard.setIsPage(board.getIsPage());
+		return findBoard.getIdx();
 	}
 	
 	public void boardDelete(Long boardIdx) throws Exception {
@@ -43,6 +44,13 @@ public class BoardRepository {
 	public List<Board> findAll() throws Exception{
 		return em.createQuery("select b from Board b where isDel = :isDel",Board.class)
 								.setParameter("isDel", "N")
+								.getResultList();
+	}
+	
+	public List<Board> findAllBoard() throws Exception {
+		return em.createQuery("select b from Board b where isDel = :isDel and isBoard = :isBoard",Board.class)
+								.setParameter("isDel", "N")
+								.setParameter("isBoard", "N")
 								.getResultList();
 	}
 

@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<script src="header.html" ></script>	
-	<th:block th:if="${userName} != null">
-		<span><a href="/myPage">My Page</a></span>
-		<span><a href="/logout">Logout</a></span>
-	</th:block>
-	<th:block th:if="${userName} == null">
-		<a href="/login">Login</a>
-	</th:block>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
+<script>
 	
-	<span th:each="board : ${boardList}">
+</script>
+<body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
+
+<main>	
+	<span th:each="board : ${boardList}" class="content-wrap">
 		<a th:href="|/board/${board.idx}|">
 			<div th:text="${board.title}"></div>
 			<div th:text="${board.boardLike}"></div>
 		</a>
 	</span>
-	
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

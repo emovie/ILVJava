@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Board Write</title>
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <style>
 	.slideCheckBox {
 		display:block;
@@ -19,10 +17,14 @@
 	}
 </style>
 <script>
-	
+	function flagValueChange(element){
+		element.value = (element.value == "Y" ? "N" : "Y");
+	}
 </script>
-</head>
 <body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
+
+<main>
 	<div>Board Write</div>
 	<form method="POST" action="/boardWrite">
 		<div>title<input type="text" name="title"></div>
@@ -30,18 +32,18 @@
 		<div>
 			pageLink
 			<input type="text" name="pageLink">
-			<input type="checkbox" name="isPage" value="Y">
-			<span class="slideCheckBox">
-				<div class="slideCheckBtn" id="isPage" value="N">&nbsp;</div>
-			</span>
+			<input type="checkbox" name="isPage" value="N" onclick="flagValueChange(this)">
 		</div>
 		<div>videoLink
 			<input type="text" name="videoLink">
-			<input type="checkbox" name="isBoard" value="Y">
+			<input type="checkbox" name="isBoard" value="N" onclick="flagValueChange(this)">
 		</div>
 		<div><input type="submit" value="Create"></div>
 	</form>
 	
 	<a href="/myPage">HOME</a>
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>

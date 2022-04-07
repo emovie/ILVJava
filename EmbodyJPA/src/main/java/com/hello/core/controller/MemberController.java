@@ -31,7 +31,8 @@ public class MemberController {
 	private final BoardService boardService;
 	
 	@GetMapping(value = "/join")
-	public String joinForm() {
+	public String joinForm(Model model, HttpSession session) {
+		model.addAttribute("userName", session.getAttribute("userName"));
 		return "member/join";
 	}
 	
@@ -99,6 +100,7 @@ public class MemberController {
 		try {
 			List<BoardDTO> boardList = boardService.findAll();
 			model.addAttribute("boardList" , boardList);
+			model.addAttribute("userName", session.getAttribute("userName"));
 			return "member/myPage";
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>login</title>
+<th:block th:replace="/fragments/fragment :: headFragment"></th:block>
 <script type="text/javascript" th:inline="javascript">
 	function loginInputCheck() {
 		const inputId = document.getElementById('id').value;
@@ -33,10 +31,15 @@
 		else location.href = path;
 	}
 </script>
-</head>
 <body>
+<th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
+
+<main>	
 	<input type="text" id="id" name="id">
 	<input type="text" id="pw" name="pw">
 	<button onclick="loginInputCheck()">Login</button>
+</main>
+
+<th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
 </body>
 </html>
