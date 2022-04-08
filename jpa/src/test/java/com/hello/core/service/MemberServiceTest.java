@@ -26,19 +26,19 @@ class MemberServiceTest {
 	@Autowired MemberRepository memberMemberRepository;
 	@Autowired EntityManager em;
 	
-	@Test
-	public void join() throws Exception {
-		//given
-		Member member = new Member();
-		member.setName("kim");
-		
-		//when
-		Long saveId = memberService.join(member);
-		
-		//then
-		em.flush();
-		assertEquals(member, memberMemberRepository.findOne(saveId));
-	}
+//	@Test
+//	public void join() throws Exception {
+//		//given
+//		Member member = new Member();
+//		member.setName("kim");
+//		
+//		//when
+//		Long saveId = memberService.join(member);
+//		
+//		//then
+//		em.flush();
+//		assertEquals(member, memberMemberRepository.findOne(saveId));
+//	}
 	
 	@Test
 	public void validate() throws Exception {

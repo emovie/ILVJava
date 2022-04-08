@@ -94,8 +94,8 @@ public class OrderRepository {
 		TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
 		return query.getResultList();
 	}
-
-	public List<Order> findAllWithMemberDelivery() {
+	
+	public List<Order> findAllWithMemberDelivery(int offset, int limit) {
 		return em.createQuery(
 				"select o from Order o join fetch o.member m join fetct o.delivery d",
 				Order.class

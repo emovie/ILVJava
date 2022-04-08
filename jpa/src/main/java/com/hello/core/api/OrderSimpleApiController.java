@@ -12,6 +12,10 @@ import com.hello.core.domain.Order;
 import com.hello.core.domain.OrderStatus;
 import com.hello.core.repository.OrderRepository;
 import com.hello.core.repository.OrderSearch;
+import com.hello.core.repository.order.query.OrderQueryDto;
+import com.hello.core.repository.order.query.OrderQueryRepository;
+import com.hello.core.repository.order.simplequery.OrderSimpleQueryDto;
+import com.hello.core.repository.order.simplequery.OrderSimpleQueryRepository;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderSimpleApiController {
 
 	private final OrderRepository orderRepository;
+	private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 	
 	@GetMapping("/api/v1/simple-orders")
 	public List<Order> ordersV1() {
@@ -43,17 +48,21 @@ public class OrderSimpleApiController {
 	@GetMapping("api/v2/simple-orders")
 	public List<SimpleOrderDto> orderV2() {
 		List<Order> orders = orderRepository.findAllByString(new OrderSearch());
-		
 		List<SimpleOrderDto> result = orders.stream()
 					.map(o -> new SimpleOrderDto(o))
 					.collect(Collectors.toList());
 		return result;
 	}
 	
-	@GetMapping("/api/v3/simple-orders")
-	public List<SimpleOrderDto> ordersV3() {
-		List<Order> orders = orderRepository.findAllWithMemberDelivery();
-	}
+//	@GetMapping("/api/v3/simple-orders")
+//	public List<SimpleOrderDto> ordersV3() {
+//		List<Order> orders = orderRepository.findAllWithMemberDelivery();
+//		List<SimpleOrderDto> result = orders.stream()
+//				.map(o -> new SimpleOrderDto(o))
+//				.collect(Collectors.toList());
+//		return result;
+//	}
+	
 	
 	@Data
 	static class SimpleOrderDto {
