@@ -20,6 +20,7 @@ import com.hello.core.DTO.MemberDTO;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
 import com.hello.core.service.MemberService;
+import com.hello.secure.SecureProgram;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,8 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final BoardService boardService;
+	
+	public SecureProgram secureProgram;
 	
 	@GetMapping(value = "/join")
 	public String joinForm(Model model, HttpSession session) {
@@ -54,17 +57,23 @@ public class MemberController {
 	
 	@PostMapping(value = "/login")
 	public @ResponseBody JSONObject login(@RequestBody HashMap<String, String> param, HttpSession session) {
-		MemberDTO member = new MemberDTO(param.get("id"), param.get("pw"));
 		HashMap<String, String> map = new HashMap<>();
 		JSONObject data;
-		String path = "";
 		
 		try {
-			String userName = memberService.login(member);
-			if(!userName.equals("")) {
-				path = "/myPage";
-				session.setAttribute("userName", userName);
-				session.setMaxInactiveInterval(-1);
+			MemberDTO member = new MemberDTO(param.get("id"), param.get("pw"));
+			String userName = "";
+			String path = "";
+
+			System.out.println("login member : "+member.getId() + " " + member.getPw());
+			if(secureProgram.xssFilter(member.getId(),member.getPw())) {
+				userName = memberService.login(member);
+				if(!userName.equals("")) {
+					path = "/myPage";
+					session.setAttribute("userName", userName);
+					session.setMaxInactiveInterval(-1);
+				}
+				else path = "";
 			}
 			else path = "";
 			map.put("path", path);

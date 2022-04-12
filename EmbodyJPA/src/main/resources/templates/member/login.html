@@ -10,6 +10,7 @@
 		login(inputId, inputPw);
 	}
 	function login(id, pw) {
+		console.log("id : " + id + ", pw : " + pw);
 		var url = "/login";
 		var data = { id : id, pw : pw };
 		
@@ -28,7 +29,7 @@
 	function pageRedirect(path) {
 		console.log("page : "+path);
 		if(path == "") alert('아이디 또는 비밀번호를 확인해주세요.')
-		else location.href = path;
+		/* else location.href = path; */
 	}
 </script>
 <body>
