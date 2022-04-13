@@ -20,6 +20,8 @@ import com.hello.core.DTO.MemberDTO;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
 import com.hello.core.service.MemberService;
+import com.hello.secure.SHA256;
+import com.hello.secure.SecureProgram;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +31,9 @@ public class MemberController {
 
 	private final MemberService memberService;
 	private final BoardService boardService;
+	
+	public SecureProgram secureProgram = new SecureProgram();
+	public SHA256 sha = new SHA256();
 	
 	@GetMapping(value = "/join")
 	public String joinForm(Model model, HttpSession session) {
@@ -56,18 +61,25 @@ public class MemberController {
 	public @ResponseBody JSONObject login(@RequestBody HashMap<String, String> param, HttpSession session) {
 		MemberDTO member = new MemberDTO(param.get("id"), param.get("pw"));
 		HashMap<String, String> map = new HashMap<>();
-		JSONObject data;
 		String path = "";
+		JSONObject data;
 		
 		try {
-			String userName = memberService.login(member);
-			if(!userName.equals("")) {
-				path = "/myPage";
-				session.setAttribute("userName", userName);
-				session.setMaxInactiveInterval(-1);
+			member.setPw(sha.encrypt(member.getPw()));
+
+			if(secureProgram.xssLoginFilter(member.getId(),member.getPw())) {
+				String userName = memberService.login(member);
+				if(!userName.equals("")) {
+					path = "/myPage";
+					session.setAttribute("userName", userName);
+					session.setMaxInactiveInterval(-1);
+				}
+				else path = "";
 			}
 			else path = "";
+			
 			map.put("path", path);
+			
 		} catch (NoResultException e) {
 			map.put("path", "");
 		} catch (Exception e) {
