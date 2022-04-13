@@ -20,6 +20,7 @@ import com.hello.core.DTO.BoardWriteDTO;
 import com.hello.core.domain.Board;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
+import com.hello.secure.SecureProgram;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,8 @@ public class BoardController {
 
 	private final BoardService boardService;
 	private final BoardRepository boardRepository;
+	
+	public SecureProgram secureProgram;
 	
 	@GetMapping(value = "/")
 	public String home(Model model, HttpSession session) {

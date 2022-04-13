@@ -20,6 +20,7 @@ import com.hello.core.DTO.MemberDTO;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
 import com.hello.core.service.MemberService;
+import com.hello.secure.SHA256;
 import com.hello.secure.SecureProgram;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,8 @@ public class MemberController {
 	private final MemberService memberService;
 	private final BoardService boardService;
 	
-	public SecureProgram secureProgram;
+	public SecureProgram secureProgram = new SecureProgram();
+	public SHA256 sha = new SHA256();
 	
 	@GetMapping(value = "/join")
 	public String joinForm(Model model, HttpSession session) {
@@ -57,17 +59,16 @@ public class MemberController {
 	
 	@PostMapping(value = "/login")
 	public @ResponseBody JSONObject login(@RequestBody HashMap<String, String> param, HttpSession session) {
+		MemberDTO member = new MemberDTO(param.get("id"), param.get("pw"));
 		HashMap<String, String> map = new HashMap<>();
+		String path = "";
 		JSONObject data;
 		
 		try {
-			MemberDTO member = new MemberDTO(param.get("id"), param.get("pw"));
-			String userName = "";
-			String path = "";
+			member.setPw(sha.encrypt(member.getPw()));
 
-			System.out.println("login member : "+member.getId() + " " + member.getPw());
-			if(secureProgram.xssFilter(member.getId(),member.getPw())) {
-				userName = memberService.login(member);
+			if(secureProgram.xssLoginFilter(member.getId(),member.getPw())) {
+				String userName = memberService.login(member);
 				if(!userName.equals("")) {
 					path = "/myPage";
 					session.setAttribute("userName", userName);
@@ -76,7 +77,9 @@ public class MemberController {
 				else path = "";
 			}
 			else path = "";
+			
 			map.put("path", path);
+			
 		} catch (NoResultException e) {
 			map.put("path", "");
 		} catch (Exception e) {
