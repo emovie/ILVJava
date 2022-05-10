@@ -2,19 +2,43 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="/fragments/fragment :: headFragment"></th:block>
-<script>
-	
-</script>
+<style>
+	/* index */
+	main {
+		display: flex;
+		justify-content: center;
+	}
+	main .content-wrap {
+		box-shadow : 2px 1px 10px 1px rgba(0,0,0,0.1);
+		border-radius: 5px;
+		width : 50%;
+		min-width : 700px;
+		height: 470px;
+		padding : 20px 10px 20px 10px;
+	}
+	main .youtube-wrapper,.board-wrapper {
+		position: relative;
+	}
+	main .board-wrapper {
+		display : flex;
+		justify-content: space-between;
+		padding : 20px 110px 10px 110px;
+	}
+</style>
 <body>
 <th:block th:replace="/fragments/fragment :: headerFragment"></th:block>
 
 <main>	
-	<span th:each="board : ${boardList}" class="content-wrap">
-		<a th:href="|/board/${board.idx}|">
-			<div th:text="${board.title}"></div>
+	<div th:each="board : ${boardList}" class="content-wrap">
+		<iframe width="500" height="270" src="https://www.youtube.com/embed/YrgqjShDZWA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		<div class="board-wrapper">
+			<div>
+				<span th:text="${board.title}"></span>
+				<span th:text="${board.descript}"></span>
+			</div>
 			<div th:text="${board.boardLike}"></div>
-		</a>
-	</span>
+		</div>
+	</div>
 </main>
 
 <th:block th:replace="/fragments/fragment :: footerFragment"></th:block>
