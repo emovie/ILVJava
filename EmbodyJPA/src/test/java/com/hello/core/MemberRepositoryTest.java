@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.core.DTO.JoinMemberDTO;
 import com.hello.core.DTO.MemberDTO;
-import com.hello.core.domain.Member;
-import com.hello.core.domain.Member.MemberBuilder;
+import com.hello.core.entity.Member;
+import com.hello.core.entity.Member.MemberBuilder;
 import com.hello.core.repository.MemberRepository;
 import com.hello.core.service.MemberService;
 

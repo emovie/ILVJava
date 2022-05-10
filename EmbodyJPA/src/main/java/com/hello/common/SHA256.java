@@ -1,4 +1,4 @@
-package com.hello.secure;
+package com.hello.common;
 
 import java.security.MessageDigest;
 

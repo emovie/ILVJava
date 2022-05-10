@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hello.common.SHA256;
+import com.hello.common.SecureProgram;
 import com.hello.core.DTO.BoardDTO;
 import com.hello.core.DTO.JoinMemberDTO;
 import com.hello.core.DTO.MemberDTO;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
 import com.hello.core.service.MemberService;
-import com.hello.secure.SHA256;
-import com.hello.secure.SecureProgram;
 
 import lombok.RequiredArgsConstructor;
 

@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import com.hello.core.DTO.BoardDTO;
-import com.hello.core.domain.Board;
+import com.hello.core.entity.Board;
 
 @Repository
 public class BoardRepository {

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hello.common.SecureProgram;
 import com.hello.core.DTO.BoardDTO;
 import com.hello.core.DTO.BoardWriteDTO;
-import com.hello.core.domain.Board;
+import com.hello.core.entity.Board;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.service.BoardService;
-import com.hello.secure.SecureProgram;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +30,6 @@ public class BoardController {
 
 	private final BoardService boardService;
 	private final BoardRepository boardRepository;
-	
-	public SecureProgram secureProgram;
 	
 	@GetMapping(value = "/")
 	public String home(Model model, HttpSession session) {
@@ -61,7 +59,8 @@ public class BoardController {
 	
 	@PostMapping(value = "/boardLike")
 	public @ResponseBody JSONObject boardLike(@RequestBody HashMap<String, String> param, HttpSession session) {
-		Object boardLikeFlag = session.getAttribute("boardLikeFlag");
+		String boardIdx = param.get("idx");
+		Object boardLikeFlag = session.getAttribute("boardLike" + boardIdx);
 		HashMap<String, String> map = new HashMap<>();
 		String message = "";
 		
@@ -69,7 +68,7 @@ public class BoardController {
 		else {
 			try {
 				map.put("boardLikeCnt", boardService.boardLikeAddOne(param.get("idx")));
-				session.setAttribute("boardLikeFlag", "like:-)");
+				session.setAttribute("boardLike"+boardIdx, boardIdx);
 				session.setMaxInactiveInterval(-1);
 			} catch (Exception e) {
 				e.printStackTrace();

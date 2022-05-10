@@ -15,7 +15,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hello.core.domain.Board;
+import com.hello.core.entity.Board;
 import com.hello.core.repository.BoardRepository;
 import com.hello.core.repository.MemberRepository;
 

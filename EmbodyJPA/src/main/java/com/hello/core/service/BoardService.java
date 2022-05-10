@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.core.DTO.BoardDTO;
 import com.hello.core.DTO.BoardWriteDTO;
-import com.hello.core.domain.Board;
+import com.hello.core.entity.Board;
 import com.hello.core.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;

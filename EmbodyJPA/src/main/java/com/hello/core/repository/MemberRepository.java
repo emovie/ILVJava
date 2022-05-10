@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import com.hello.core.domain.Member;
+import com.hello.core.entity.Member;
 
 @Repository
 public class MemberRepository {
